@@ -1,7 +1,3 @@
-<?php
-$from_form = $_POST;
-$n = 0;
-?>
 <html>
 <head>
 <meta charset="utf-8">
@@ -22,15 +18,49 @@ $n = 0;
 	<td align="center"><span>Файл test.php</span></td>
   </tr>
  </table>
-<p>Ваш результат:</p>
 <?php
-foreach($from_form as $answer){
-	if ($answer == "a2"){
-		$n += 1;
+if (!empty($_GET)){
+	if (empty($_GET['username'])){
+		echo '<br>'.'Имя не введено.';
+		exit;
+	}
+	else if (empty($_GET['test'])){
+		echo '<br>'.'Файл с тестом не выбран.';
+		exit;
+	}
+	else{
+		$json = file_get_contents($_GET['test'].'.json');
+		$data = json_decode($json, true);
+		
+		echo '<p>Выполните тест:</p>'; 
+		echo '<form method="post" action="test.php">';
+		foreach($data as $element){
+			echo '<p><b>'.$element['Question'].'</b></p>';
+			foreach($element['Answers'] as $answer){
+				echo '<p><input type="radio" name="'.$element['id'].'" value="a1">'.$answer['1'].'<br>';
+				echo '<p><input type="radio" name="'.$element['id'].'" value="a2">'.$answer['2'].'<br>';
+				echo '<p><input type="radio" name="'.$element['id'].'" value="a3">'.$answer['3'].'<br>';
+			}
+		}
+		echo '<p><input type="submit" value="Отправить ответы"></p>';
+		echo '</form>';
 	}
 }
-echo 'У вас правильных ответов: '.$n.'<br>';
-?>
-</table>
+
+else if(!empty($_POST)){
+	$from_form = $_POST;
+	$n = 0;
+
+	foreach($from_form as $answer){
+		if ($answer == "a2"){
+			$n += 1;
+		}
+	}
+	echo '<br>'.'У вас правильных ответов: '.$n.'<br>';
+}
+else if(empty($_GET)){
+	echo '<br>'.'Выберите тест и введите имя пользователя!'.'<br>';
+}
+ ?>
 </body>
 </html>

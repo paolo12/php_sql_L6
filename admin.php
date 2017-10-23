@@ -13,9 +13,9 @@
 <body>
 <table border="1px" border-collapse="collapse" width="100%">
   <tr>
-    <td align="center"><span>Файл admin.php</span></td>
-	<td align="center"><a href="list.php"><span>Файл list.php</span></a></td>
-	<td align="center"><a href="test.php"><span>Файл test.php</span></a></td>
+    <td align="center"><span>Главная</span></td>
+	<td align="center"><a href="list.php"><span>Страница загрузки</span></a></td>
+	<td align="center"><a href="test.php"><span>Страница теста</span></a></td>
   </tr>
  </table>
 <p>Загрузите файл с тестами в формате json:</p>
@@ -29,8 +29,12 @@
 		$file_name = $_FILES['userfile']['name'];
 		$up_path = '';
 		$tmp_file = $_FILES['userfile']['tmp_name'];
-		move_uploaded_file($tmp_file, $up_path . $file_name);					
-		echo 'Файл теста загружен!';
+		if (move_uploaded_file($tmp_file, $up_path . $file_name)){
+			echo 'Файл теста загружен!';
+		}
+		else{
+			echo 'Произошла ошибка при загрузке файла! Попробуйте загрузить файл еще раз.';
+		}
 }
 ?>
 </table>

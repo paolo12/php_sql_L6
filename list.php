@@ -13,9 +13,9 @@
 <body>
 <table border="1px" border-collapse="collapse" width="100%">
   <tr>
-    <td align="center"><a href="admin.php"><span>Файл admin.php</span></a></td>
-	<td align="center"><span>Файл list.php</span></td>
-	<td align="center"><a href="test.php"><span>Файл test.php</span></a></td>
+    <td align="center"><a href="admin.php"><span>Главная</span></a></td>
+	<td align="center"><span>Страница загрузки</span></td>
+	<td align="center"><a href="test.php"><span>Страница теста</span></a></td>
   </tr>
  </table>
 <p>Выберите тест:</p>

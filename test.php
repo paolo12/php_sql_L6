@@ -13,9 +13,9 @@
 <body>
 <table border="1px" border-collapse="collapse" width="100%">
   <tr>
-    <td align="center"><a href="admin.php"><span>Файл admin.php</span></a></td>
-	<td align="center"><a href="list.php"><span>Файл list.php</span></a></td>
-	<td align="center"><span>Файл test.php</span></td>
+    <td align="center"><a href="admin.php"><span>Главная</span></a></td>
+	<td align="center"><a href="list.php"><span>Страница загрузки</span></a></td>
+	<td align="center"><span>Страница теста</span></td>
   </tr>
  </table>
 <?php
@@ -31,19 +31,23 @@ if (!empty($_GET)){
 	else{
 		$json = file_get_contents($_GET['test'].'.json');
 		$data = json_decode($json, true);
-		
-		echo '<p>Выполните тест:</p>'; 
-		echo '<form method="post" action="test.php">';
-		foreach($data as $element){
-			echo '<p><b>'.$element['Question'].'</b></p>';
-			foreach($element['Answers'] as $answer){
-				echo '<p><input type="radio" name="'.$element['id'].'" value="a1">'.$answer['1'].'<br>';
-				echo '<p><input type="radio" name="'.$element['id'].'" value="a2">'.$answer['2'].'<br>';
-				echo '<p><input type="radio" name="'.$element['id'].'" value="a3">'.$answer['3'].'<br>';
+		if(!empty($data[0]['Question'])){
+			foreach($data as $element){
+				echo '<p>Выполните тест:</p>'; 
+				echo '<form method="post" action="test.php">';
+				echo '<p><b>'.$element['Question'].'</b></p>';
+				foreach($element['Answers'] as $answer){
+					echo '<p><input type="radio" name="'.$element['id'].'" value="a1">'.$answer['1'].'<br>';
+					echo '<p><input type="radio" name="'.$element['id'].'" value="a2">'.$answer['2'].'<br>';
+					echo '<p><input type="radio" name="'.$element['id'].'" value="a3">'.$answer['3'].'<br>';
+				}
 			}
+			echo '<p><input type="submit" value="Отправить ответы"></p>';
+			echo '</form>';
 		}
-		echo '<p><input type="submit" value="Отправить ответы"></p>';
-		echo '</form>';
+		else{
+			echo '<p>Структура файла не соответствует утвержденной структуре json-файлов для тестов.</p>';
+		}
 	}
 }
 

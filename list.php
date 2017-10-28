@@ -20,8 +20,8 @@
  </table>
 <p>Выберите тест:</p>
  <form enctype="multipart/form-data" action="test.php" method="GET">
- <?php foreach(glob('*.json') as $filename){
-	 echo '<p><input type="radio" name="test" value="'.substr($filename, 0, -5).'">'.$filename.'<br>'.'</p>';
+ <?php foreach(glob(__DIR__.'/testbook/'.'*.json') as $filename){
+	 echo '<p><input type="radio" name="test" value="'.substr(basename($filename), 0, -5).'">'.basename($filename).'<br>'.'</p>';
 	 }
 	 ?>
   <p><input placeholder="Ваше имя" name="username"></p>

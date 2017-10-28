@@ -29,17 +29,17 @@ if (!empty($_GET)){
 		exit;
 	}
 	else{
-		$json = file_get_contents($_GET['test'].'.json');
+		$json = file_get_contents(__DIR__.'/testbook/'.$_GET['test'].'.json');
 		$data = json_decode($json, true);
 		if(!empty($data[0]['Question'])){
-			foreach($data as $element){
 				echo '<p>Выполните тест:</p>'; 
+				foreach($data as $element){
 				echo '<form method="post" action="test.php">';
 				echo '<p><b>'.$element['Question'].'</b></p>';
 				foreach($element['Answers'] as $answer){
-					echo '<p><input type="radio" name="'.$element['id'].'" value="a1">'.$answer['1'].'<br>';
-					echo '<p><input type="radio" name="'.$element['id'].'" value="a2">'.$answer['2'].'<br>';
-					echo '<p><input type="radio" name="'.$element['id'].'" value="a3">'.$answer['3'].'<br>';
+					for ($i = 1; $i <= count($answer); $i++) {
+						echo '<p><input type="radio" name="'.$element['id'].'" value="'.$i.'">'.$answer[$i].'<br>';
+					}
 				}
 			}
 			echo '<p><input type="submit" value="Отправить ответы"></p>';
@@ -56,7 +56,7 @@ else if(!empty($_POST)){
 	$n = 0;
 
 	foreach($from_form as $answer){
-		if ($answer == "a2"){
+		if ($answer == 2){
 			$n += 1;
 		}
 	}

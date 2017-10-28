@@ -27,7 +27,7 @@
 <?php
 	if(!empty($_FILES)){
 		$file_name = $_FILES['userfile']['name'];
-		$up_path = '';
+		$up_path = __DIR__.'/testbook/';
 		$tmp_file = $_FILES['userfile']['tmp_name'];
 		if (move_uploaded_file($tmp_file, $up_path . $file_name)){
 			echo 'Файл теста загружен!';

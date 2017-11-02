@@ -31,17 +31,19 @@ if (!empty($_GET)){
 	else{
 		$json = file_get_contents(__DIR__.'/testbook/'.$_GET['test'].'.json');
 		$data = json_decode($json, true);
+		echo '<br>';
 		if(!empty($data[0]['Question'])){
 				echo '<p>Выполните тест:</p>'; 
 				foreach($data as $element){
 				echo '<form method="post" action="test.php">';
 				echo '<p><b>'.$element['Question'].'</b></p>';
 				foreach($element['Answers'] as $answer){
-					for ($i = 1; $i <= count($answer); $i++) {
+					for ($i = 1; $i <= count($answer) - 1; $i++) {
 						echo '<p><input type="radio" name="'.$element['id'].'" value="'.$i.'">'.$answer[$i].'<br>';
 					}
 				}
 			}
+			echo '<input type="hidden" name="test_file" value="'.$_GET['test'].'">';
 			echo '<p><input type="submit" value="Отправить ответы"></p>';
 			echo '</form>';
 		}
@@ -52,14 +54,16 @@ if (!empty($_GET)){
 }
 
 else if(!empty($_POST)){
-	$from_form = $_POST;
+	$test_file = file_get_contents(__DIR__.'/testbook/'.$_POST['test_file'].'.json');
+	$data_test_file = json_decode($test_file, true);
 	$n = 0;
-
-	foreach($from_form as $answer){
-		if ($answer == 2){
+	
+	foreach($data_test_file as $element){
+		if($element['Answers'][0]["correct"] == $_POST[$element["id"]]){
 			$n += 1;
 		}
-	}
+	}	
+	
 	echo '<br>'.'У вас правильных ответов: '.$n.'<br>';
 }
 else if(empty($_GET)){
